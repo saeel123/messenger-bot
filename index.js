@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-app.set('port', (process.env.PORT || 5000))
+const PORT = process.env.PORT || 5000;
 
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
@@ -25,6 +25,6 @@ app.get('/webhook/', function (req, res) {
 })
 
 // Spin up the server
-app.listen(app.get('port'), function() {
-	console.log('running on port', app.get('port'))
+app.listen(PORT, function() {
+	console.log('running on port', PORT);
 })
