@@ -138,9 +138,11 @@ function processMessage(event) {
         if (message.text) {
 						var formattedMsg = message.text.toLowerCase().trim();
 
+						var name ;
 
 						console.log("message");
 						console.log(name);
+
 
 						if (formattedMsg === "hi" ) {
 
