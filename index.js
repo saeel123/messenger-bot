@@ -166,7 +166,7 @@ function processMessage(event) {
 									if (!question['answer']) {
 										sendMessage(senderId, {text: "Answer not found"});
 									} else {
-										sendMessage(senderId, {text: question['question']});
+										sendMessage(senderId, {text: question['answer']});
 									}
 								}
 							});
