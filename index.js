@@ -139,6 +139,8 @@ function processMessage(event) {
 
 						} else {
 							Question.findByQuestion(formattedMsg, function (question, err) {
+								console.log(question);
+								console.log(err);
 								if (err) {
 									sendMessage(senderId, {text: "we were unable to process your question"});
 								} else if (question === null){

@@ -19,5 +19,8 @@ module.exports.findByQuestion = function (question, callback) {
 }
 
 module.exports.addQuestion = function (newQuestion, callback) {
-      newQuestion.save(callback);
+      console.log("model");
+      console.log(newQuestion);
+      console.log("model");
+      //newQuestion.save(callback);
 }
