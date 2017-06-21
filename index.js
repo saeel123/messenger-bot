@@ -163,8 +163,11 @@ function processMessage(event) {
 									});
 								} else {
 									//sendMessage(senderId, {text: question['question']});
-									sendMessage(senderId, {text: "test done"});
-
+									if (!question['answer']) {
+										sendMessage(senderId, {text: "Answer not found"});
+									} else {
+										sendMessage(senderId, {text: question['question']});
+									}
 								}
 							});
 						}
