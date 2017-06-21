@@ -10,6 +10,8 @@ var mongoose = require("mongoose");
 var db = mongoose.connect(process.env.MONGODB_URI);
 var Movie = require("./movie.js");
 
+var Question = require("./models/question")
+
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
 
@@ -18,7 +20,7 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function (req, res) {
-	res.send('Hello world, I am a chat bot')
+	res.send('Hello world, I am a chat bot');
 })
 
 
@@ -55,6 +57,14 @@ app.post("/webhook", function (req, res) {
     }
 });
 
+
+app.get("/test", function (req, res) {
+
+	let test = "";
+
+	res.send(test);
+});
+
 function processPostback(event) {
     var senderId = event.sender.id;
     var payload = event.postback.payload;
@@ -88,6 +98,31 @@ function processPostback(event) {
     }
 }
 
+function getMessengerName(senderId) {
+
+	// Get user's first name from the User Profile API
+	// and include it in the greeting
+	request({
+			url: "https://graph.facebook.com/v2.6/" + senderId,
+			qs: {
+					access_token: process.env.PAGE_ACCESS_TOKEN,
+					fields: "first_name"
+			},
+			method: "GET"
+	}, function(error, response, body) {
+			var greeting = "";
+			if (error) {
+					console.log("Error getting user's name: " +  error);
+			} else {
+					var bodyObj = JSON.parse(body);
+					name = bodyObj.first_name;
+			}
+			var message = name;
+			return message;
+	});
+
+}
+
 function processMessage(event) {
     if (!event.message.is_echo) {
         var message = event.message;
@@ -96,101 +131,32 @@ function processMessage(event) {
         console.log("Received message from senderId: " + senderId);
         console.log("Message is: " + JSON.stringify(message));
 
-        // You may get a text or attachment but not both
         if (message.text) {
+						var formattedMsg = message.text.toLowerCase().trim();
+						var name = getMessengerName(senderId);
 
-
-
-            var formattedMsg = message.text.toLowerCase().trim();
-
-            // If we receive a text message, check to see if it matches any special
-            // keywords and send back the corresponding movie detail.
-            // Otherwise search for new movie.
-            switch (formattedMsg) {
-                case "hi":
-										sendMessage(senderId, {text: "Hi How we can help you?"});
-										break;
-                case "please contact":
-										sendMessage(senderId, {text: "Will get back to you soon. sorry for inconvience"});
-										break;
-                default:
-									sendMessage(senderId, {text: "I dint get that ill contact you soon on this."});
-									break;
-            }
+						if (formattedMsg === "hi" ) {
+							sendMessage(senderId, {text: "Hi "+ name + ",How I can Help you?"});
+						} else {
+							sendMessage(senderId, {text: "we are proceesing the data catch you soon"});
+						}
         } else if (message.attachments) {
             sendMessage(senderId, {text: "Sorry, I don't understand your request."});
         }
     }
 }
 
-function findMovie(userId, movieTitle) {
-    request("http://www.omdbapi.com/?type=movie&t=" + movieTitle, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var movieObj = JSON.parse(body);
-            if (movieObj.Response === "True") {
-                var query = {user_id: userId};
-                var update = {
-                    user_id: userId,
-                    title: movieObj.Title,
-                    plot: movieObj.Plot,
-                    date: movieObj.Released,
-                    runtime: movieObj.Runtime,
-                    director: movieObj.Director,
-                    cast: movieObj.Actors,
-                    rating: movieObj.imdbRating,
-                    poster_url:movieObj.Poster
-                };
-                var options = {upsert: true};
-                Movie.findOneAndUpdate(query, update, options, function(err, mov) {
-                    if (err) {
-                        console.log("Database error: " + err);
-                    } else {
-                        message = {
-                            attachment: {
-                                type: "template",
-                                payload: {
-                                    template_type: "generic",
-                                    elements: [{
-                                        title: movieObj.Title,
-                                        subtitle: "Is this the movie you are looking for?",
-                                        image_url: movieObj.Poster === "N/A" ? "http://placehold.it/350x150" : movieObj.Poster,
-                                        buttons: [{
-                                            type: "postback",
-                                            title: "Yes",
-                                            payload: "Correct"
-                                        }, {
-                                            type: "postback",
-                                            title: "No",
-                                            payload: "Incorrect"
-                                        }]
-                                    }]
-                                }
-                            }
-                        };
-                        sendMessage(userId, message);
-                    }
-                });
-            } else {
-                console.log(movieObj.Error);
-                sendMessage(userId, {text: movieObj.Error});
-            }
+
+function getQuestionAnswer(userId, question) {
+
+    Question.findOne({question: question}, function(err, question) {
+        if(err) {
+            sendMessage(userId, {text: "Something went wrong. Try again"});
         } else {
-            sendMessage(userId, {text: "Something went wrong. Try again."});
+            sendMessage(userId, {text: question[answer]});
         }
     });
-}
 
-function getMovieDetail(userId, field) {
-	sendMessage(userId, {text: "yo Ill get back to you soon see ya "});
-
-
-    // Movie.findOne({user_id: userId}, function(err, movie) {
-    //     if(err) {
-    //         sendMessage(userId, {text: "Something went wrong. Try again"});
-    //     } else {
-    //         sendMessage(userId, {text: movie[field]});
-    //     }
-    // });
 }
 
 // sends message to user
