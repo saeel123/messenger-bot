@@ -140,12 +140,6 @@ function processMessage(event) {
 						} else {
 							Question.findByQuestion(formattedMsg, function (err, question) {
 
-								console.log("found question");
-								console.log(question);
-								console.log("found error");
-								console.log(err);
-
-
 								if (err) {
 									sendMessage(senderId, {text: "error occured while search"});
 								} else if (question === null){
@@ -155,16 +149,16 @@ function processMessage(event) {
 									});
 
 									Question.addQuestion(newQuestion, function (newQuestion, err) {
-										if (err) {
-											sendMessage(senderId, {text: "saved in db"});
+										if (!err) {
+											sendMessage(senderId, {text: "We dint get what you want to say..."});
 										} else {
-											sendMessage(senderId, {text: "will catch you"});
+											sendMessage(senderId, {text: "we will get back to you soon"});
 										}
 									});
 								} else {
 									//sendMessage(senderId, {text: question['question']});
 									if (!question['answer']) {
-										sendMessage(senderId, {text: "Answer not found"});
+										sendMessage(senderId, {text: "We will get back to you..thank you For you intrest"});
 									} else {
 										sendMessage(senderId, {text: question['answer']});
 									}
