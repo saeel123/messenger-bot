@@ -108,13 +108,13 @@ function processMessage(event) {
             // Otherwise search for new movie.
             switch (formattedMsg) {
                 case "hi":
-										sendMessage(userId, {text: "Hi How we can help you?"});
+										sendMessage(senderId, {text: "Hi How we can help you?"});
 										break;
                 case "please contact":
-										sendMessage(userId, {text: "Will get back to you soon. sorry for inconvience"});
+										sendMessage(senderId, {text: "Will get back to you soon. sorry for inconvience"});
 										break;
                 default:
-									sendMessage(userId, {text: "I dint get that ill contact you soon on this."});
+									sendMessage(senderId, {text: "I dint get that ill contact you soon on this."});
 									break;
             }
         } else if (message.attachments) {
