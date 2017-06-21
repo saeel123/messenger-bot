@@ -160,7 +160,7 @@ function processMessage(event) {
 								} else {
 									sendMessage(senderId, {text: question});
 								}
-							})
+							});
 						}
         } else if (message.attachments) {
             sendMessage(senderId, {text: "Sorry, I don't understand your request."});
