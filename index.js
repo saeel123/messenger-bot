@@ -119,6 +119,10 @@ function getMessengerName(senderId) {
 			}
 			var message = name;
 			return message;
+
+			console.log("message get name fun");
+			console.log(message);
+
 	});
 
 }
@@ -134,6 +138,9 @@ function processMessage(event) {
         if (message.text) {
 						var formattedMsg = message.text.toLowerCase().trim();
 						var name = getMessengerName(senderId);
+
+						console.log("message");
+						console.log(name);
 
 						if (formattedMsg === "hi" ) {
 							sendMessage(senderId, {text: "Hi "+ name + ",How I can Help you?"});
