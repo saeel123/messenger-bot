@@ -141,6 +141,8 @@ function processMessage(event) {
 							Question.findByQuestion(formattedMsg, function (question, err) {
 
 								console.log(question);
+								console.log(err);
+
 
 								if (err) {
 									sendMessage(senderId, {text: "error occured while search"});
