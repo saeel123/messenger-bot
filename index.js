@@ -138,7 +138,7 @@ function processMessage(event) {
 							});
 
 						} else {
-							Question.findByQuestion(formattedMsg, function (question, err) {
+							Question.findByQuestion(formattedMsg, function (err, question) {
 
 								console.log(question);
 								console.log(err);
