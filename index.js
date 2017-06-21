@@ -107,17 +107,15 @@ function processMessage(event) {
             // keywords and send back the corresponding movie detail.
             // Otherwise search for new movie.
             switch (formattedMsg) {
-                case "plot":
-                case "date":
-                case "runtime":
-                case "director":
-                case "cast":
-                case "rating":
-                    getMovieDetail(senderId, formattedMsg);
-                    break;
-
+                case "Hi":
+										sendMessage(userId, {text: "Hi How we can help you?"});
+										break;
+                case "please contact":
+										sendMessage(userId, {text: "Will get back to you soon. sorry for inconvience"});
+										break;
                 default:
-                    findMovie(senderId, formattedMsg);
+									sendMessage(userId, {text: "I dint get that ill contact you soon on this."});
+									break;
             }
         } else if (message.attachments) {
             sendMessage(senderId, {text: "Sorry, I don't understand your request."});
