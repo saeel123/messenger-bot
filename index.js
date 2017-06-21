@@ -88,20 +88,18 @@ function processPostback(event) {
                 name = bodyObj.first_name;
                 greeting = "Hi " + name + ". ";
             }
-            var message = greeting + "My name is SP Movie Bot. I can tell you various details regarding movies. What movie would you like to know about?";
+            var message = greeting + "We are people who shape your story.";
             sendMessage(senderId, {text: message});
         });
     } else if (payload === "Correct") {
-        sendMessage(senderId, {text: "Awesome! What would you like to find out? Enter 'plot', 'date', 'runtime', 'director', 'cast' or 'rating' for the various details."});
+        sendMessage(senderId, {text: "Awesome! How we can help You"});
     } else if (payload === "Incorrect") {
-        sendMessage(senderId, {text: "Oops! Sorry about that. Try using the exact title of the movie"});
+        sendMessage(senderId, {text: "Oops! Sorry about that."});
     }
 }
 
 function getMessengerName(senderId, callback) {
 
-	// Get user's first name from the User Profile API
-	// and include it in the greeting
 	request({
 			url: "https://graph.facebook.com/v2.6/" + senderId,
 			qs: {
@@ -119,12 +117,7 @@ function getMessengerName(senderId, callback) {
 			}
 
 			return callback(name);
-
-			console.log("message get name fun");
-			console.log(name);
-
 	});
-
 }
 
 function processMessage(event) {
@@ -145,7 +138,23 @@ function processMessage(event) {
 							});
 
 						} else {
-							sendMessage(senderId, {text: "we are proceesing the data catch you soon"});
+							Question.findByQuestion(formattedMsg, function (question, err) {
+								if (err) {
+									sendMessage(senderId, {text: "we were unable to process your question"});
+								} else if (question === null){
+									var newQuestion = {question: formattedMsg};
+									Question.addQuestion(newQuestion, function (newQuestion, err) {
+										if (err) {
+											sendMessage(senderId, {text: "we were unable to process your question"});
+										} else {
+											sendMessage(senderId, {text: "will catch you"});
+										}
+									});
+									sendMessage(senderId, {text: "Will get back to you..please give us some time"});
+								} else {
+									sendMessage(senderId, {text: question});
+								}
+							})
 						}
         } else if (message.attachments) {
             sendMessage(senderId, {text: "Sorry, I don't understand your request."});
@@ -156,11 +165,11 @@ function processMessage(event) {
 
 function getQuestionAnswer(userId, question) {
 
-    Question.findOne({question: question}, function(err, question) {
+    Question.findByQuestion(question, function(err, question) {
         if(err) {
             sendMessage(userId, {text: "Something went wrong. Try again"});
         } else {
-            sendMessage(userId, {text: question[answer]});
+            sendMessage(userId, {text: question});
         }
     });
 
