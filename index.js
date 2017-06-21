@@ -139,8 +139,6 @@ function processMessage(event) {
 
 						} else {
 							Question.findByQuestion(formattedMsg, function (question, err) {
-								console.log(question);
-								console.log(err);
 								if (err) {
 									sendMessage(senderId, {text: "we were unable to process your question"});
 								} else if (question === null){
@@ -149,8 +147,6 @@ function processMessage(event) {
 										question: formattedMsg
 									});
 
-									//var newQuestion = {question: formattedMsg};
-									
 									Question.addQuestion(newQuestion, function (newQuestion, err) {
 										if (err) {
 											sendMessage(senderId, {text: "we were unable to process your question"});
@@ -158,8 +154,10 @@ function processMessage(event) {
 											sendMessage(senderId, {text: "will catch you"});
 										}
 									});
-									sendMessage(senderId, {text: "Will get back to you..please give us some time"});
 								} else {
+									console.log("question");
+									console.log(question);
+
 									sendMessage(senderId, {text: question});
 								}
 							})
