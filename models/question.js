@@ -9,13 +9,15 @@ var QuestionSchema = mongoose.Schema({
 const Question = module.exports = mongoose.model("Question", QuestionSchema);
 
 module.exports.findByQuestion = function (question, callback) {
+
+  console.log(question);
+  console.log("model question");
+
+
   const query = {question: question};
   Question.findOne(query, callback);
 }
 
 module.exports.addQuestion = function (newQuestion, callback) {
-      console.log("model");
-      console.log(newQuestion);
-      console.log("model");
       newQuestion.save(callback);
 }
