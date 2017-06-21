@@ -139,8 +139,11 @@ function processMessage(event) {
 
 						} else {
 							Question.findByQuestion(formattedMsg, function (question, err) {
+
+								console.log(question);
+
 								if (err) {
-									sendMessage(senderId, {text: "we were unable to process your question"});
+									sendMessage(senderId, {text: "error occured while search"});
 								} else if (question === null){
 
 									let newQuestion = new Question({
@@ -149,15 +152,12 @@ function processMessage(event) {
 
 									Question.addQuestion(newQuestion, function (newQuestion, err) {
 										if (err) {
-											sendMessage(senderId, {text: "we were unable to process your question"});
+											sendMessage(senderId, {text: "saved in db"});
 										} else {
 											sendMessage(senderId, {text: "will catch you"});
 										}
 									});
 								} else {
-									console.log("question");
-									console.log(question);
-
 									sendMessage(senderId, {text: question});
 								}
 							})
