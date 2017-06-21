@@ -137,16 +137,21 @@ function processMessage(event) {
 
         if (message.text) {
 						var formattedMsg = message.text.toLowerCase().trim();
-						var name;
-						getMessengerName(senderId, function (res) {
-							name = res;
-						});
+
 
 						console.log("message");
 						console.log(name);
 
 						if (formattedMsg === "hi" ) {
-							sendMessage(senderId, {text: "Hi "+ name + ",How I can Help you?"});
+
+							getMessengerName(senderId, function (res) {
+								name = res;
+							}, sendMessage(senderId, {text: "Hi "+ name + ",How I can Help you?"}));
+
+							console.log("message1");
+							console.log(name);
+
+							//sendMessage(senderId, {text: "Hi "+ name + ",How I can Help you?"});
 						} else {
 							sendMessage(senderId, {text: "we are proceesing the data catch you soon"});
 						}
