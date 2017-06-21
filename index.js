@@ -140,7 +140,9 @@ function processMessage(event) {
 						} else {
 							Question.findByQuestion(formattedMsg, function (err, question) {
 
+								console.log("found question");
 								console.log(question);
+								console.log("found error");
 								console.log(err);
 
 
@@ -160,7 +162,9 @@ function processMessage(event) {
 										}
 									});
 								} else {
-									sendMessage(senderId, {text: question});
+									//sendMessage(senderId, {text: question['question']});
+									sendMessage(senderId, {text: "test done"});
+
 								}
 							});
 						}
