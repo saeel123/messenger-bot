@@ -98,6 +98,9 @@ function processMessage(event) {
 
         // You may get a text or attachment but not both
         if (message.text) {
+
+
+
             var formattedMsg = message.text.toLowerCase().trim();
 
             // If we receive a text message, check to see if it matches any special
@@ -110,7 +113,7 @@ function processMessage(event) {
                 case "director":
                 case "cast":
                 case "rating":
-                    "test"
+                    getMovieDetail(senderId, formattedMsg);
                     break;
 
                 default:
@@ -180,13 +183,16 @@ function findMovie(userId, movieTitle) {
 }
 
 function getMovieDetail(userId, field) {
-    Movie.findOne({user_id: userId}, function(err, movie) {
-        if(err) {
-            sendMessage(userId, {text: "Something went wrong. Try again"});
-        } else {
-            sendMessage(userId, {text: movie[field]});
-        }
-    });
+	sendMessage(userId, {text: "yo Ill get back to you soon see ya "});
+
+
+    // Movie.findOne({user_id: userId}, function(err, movie) {
+    //     if(err) {
+    //         sendMessage(userId, {text: "Something went wrong. Try again"});
+    //     } else {
+    //         sendMessage(userId, {text: movie[field]});
+    //     }
+    // });
 }
 
 // sends message to user
