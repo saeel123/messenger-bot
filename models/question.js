@@ -13,11 +13,6 @@ module.exports.findByQuestion = function (question, callback) {
   Question.findOne(query, callback);
 }
 
-module.exports.findByQuestion = function (question, callback) {
-  const query = {question: question};
-  Question.findOne(query, callback);
-}
-
 module.exports.addQuestion = function (newQuestion, callback) {
       console.log("model");
       console.log(newQuestion);
