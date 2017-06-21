@@ -98,7 +98,7 @@ function processPostback(event) {
     }
 }
 
-function getMessengerName(senderId) {
+function getMessengerName(senderId, callback) {
 
 	// Get user's first name from the User Profile API
 	// and include it in the greeting
@@ -117,11 +117,11 @@ function getMessengerName(senderId) {
 					var bodyObj = JSON.parse(body);
 					name = bodyObj.first_name;
 			}
-			var message = name;
-			return message;
+
+			return callback(name);
 
 			console.log("message get name fun");
-			console.log(message);
+			console.log(name);
 
 	});
 
@@ -137,7 +137,10 @@ function processMessage(event) {
 
         if (message.text) {
 						var formattedMsg = message.text.toLowerCase().trim();
-						var name = getMessengerName(senderId);
+						var name;
+						getMessengerName(senderId, function (res) {
+							name = res;
+						});
 
 						console.log("message");
 						console.log(name);
