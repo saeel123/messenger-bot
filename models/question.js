@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-var QuestionSchema = new Schema({
+var QuestionSchema = mongoose.Schema({
   question: {type: String},
   answer: {type: String}
 });
@@ -22,5 +22,5 @@ module.exports.addQuestion = function (newQuestion, callback) {
       console.log("model");
       console.log(newQuestion);
       console.log("model");
-      //newQuestion.save(callback);
+      newQuestion.save(callback);
 }

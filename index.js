@@ -144,7 +144,13 @@ function processMessage(event) {
 								if (err) {
 									sendMessage(senderId, {text: "we were unable to process your question"});
 								} else if (question === null){
-									var newQuestion = {question: formattedMsg};
+
+									let newQuestion = new Question({
+										question: formattedMsg
+									});
+
+									//var newQuestion = {question: formattedMsg};
+									
 									Question.addQuestion(newQuestion, function (newQuestion, err) {
 										if (err) {
 											sendMessage(senderId, {text: "we were unable to process your question"});
