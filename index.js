@@ -116,15 +116,12 @@ function getMessengerName(senderId, callback) {
 			} else {
 					var bodyObj = JSON.parse(body);
 					name = bodyObj.first_name;
-					test =  getResponseJson(name);
 			}
 
-			 callback(test);
+			return callback(name);
 
 			console.log("message get name fun");
 			console.log(name);
-
-			return
 
 	});
 
@@ -141,23 +138,12 @@ function processMessage(event) {
         if (message.text) {
 						var formattedMsg = message.text.toLowerCase().trim();
 
-						var name ;
-
-						console.log("message");
-						console.log(name);
-
-
 						if (formattedMsg === "hi" ) {
 
 							getMessengerName(senderId, function (res) {
-								name = res;
-								console.log(res);
-							}, sendMessage(senderId, {text: "Hi "+ name + ",How I can Help you?"}));
+								sendMessage(senderId, {text: "Hi "+ res + ",How I can Help you?"});
+							});
 
-							console.log("message1");
-							console.log(name);
-
-							//sendMessage(senderId, {text: "Hi "+ name + ",How I can Help you?"});
 						} else {
 							sendMessage(senderId, {text: "we are proceesing the data catch you soon"});
 						}
