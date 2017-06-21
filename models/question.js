@@ -17,9 +17,8 @@ module.exports.findByQuestion = function (question, callback) {
   const query = {question: question};
   console.log(query);
 
-  var test = Question.findOne(query, callback);
+  Question.find(query, callback);
 
-  console.log(test);
 
 }
 
