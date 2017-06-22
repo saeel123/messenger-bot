@@ -8,7 +8,6 @@ var Question = require("../models/question");
 // Used for verification
 router.get("/", function (req, res) {
     console.log(req.query);
-    res.send("hub.challenge");
 
 
     if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {

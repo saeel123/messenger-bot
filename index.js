@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
 //middleware
-app.use('/webhooks/', webhooks);
+app.use('/webhook/', webhooks);
 
 // Index route
 app.get('/', function (req, res) {
