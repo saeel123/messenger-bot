@@ -6,7 +6,9 @@ var mongoose = require("mongoose");
 
 
 const PORT = process.env.PORT || 5000;
-const db = mongoose.connect(process.env.MONGODB_URI);
+//const db = mongoose.connect(process.env.MONGODB_URI);
+const db = mongoose.connect("mongodb://localhost:27017/messenger-bot");
+
 
 const webhooks = require('./routes/webhooks');
 
@@ -18,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
 //middleware
-app.use('/webhooks', webhooks);
+app.use('/webhooks/', webhooks);
 
 // Index route
 app.get('/', function (req, res) {
