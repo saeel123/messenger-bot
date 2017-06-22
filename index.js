@@ -2,20 +2,18 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-
-const PORT = process.env.PORT || 5000;
-
 var mongoose = require("mongoose");
 
-var db = mongoose.connect(process.env.MONGODB_URI);
 
-var Question = require("./models/question")
+const PORT = process.env.PORT || 5000;
+const db = mongoose.connect(process.env.MONGODB_URI);
+const Question = require('./models/question');
 
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
-
 // Process application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
 
 // Index route
 app.get('/', function (req, res) {
@@ -183,22 +181,6 @@ function getQuestionAnswer(userId, question) {
 
 }
 
-// sends message to user
-function sendMessage(recipientId, message) {
-    request({
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-        method: "POST",
-        json: {
-            recipient: {id: recipientId},
-            message: message,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log("Error sending message: " + response.error);
-        }
-    });
-}
 
 
 //const token = process.env.FB_PAGE_ACCESS_TOKEN;
