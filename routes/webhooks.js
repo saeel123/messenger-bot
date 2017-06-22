@@ -9,7 +9,7 @@ var Question = require("../models/question");
 router.get("/", function (req, res) {
     console.log(req.query["hub.verify_token"]);
 
-    if (req.query["hub.verify_token"] === "my_voice_is_my_password_verify_me") {
+    if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {
         console.log("Verified webhook");
         res.status(200).send(req.query["hub.challenge"]);
     } else {
