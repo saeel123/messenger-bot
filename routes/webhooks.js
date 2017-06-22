@@ -6,7 +6,7 @@ var Question = require("../models/question");
 
 // Facebook Webhook
 // Used for verification
-router.get("/", function (req, res) {
+router.get("", function (req, res) {
     if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {
         console.log("Verified webhook");
         res.status(200).send(req.query["hub.challenge"]);
@@ -17,7 +17,7 @@ router.get("/", function (req, res) {
 });
 
 // All callbacks for Messenger will be POST-ed here
-router.post("/", function (req, res) {
+router.post("", function (req, res) {
     // Make sure this is a page subscription
     if (req.body.object == "page") {
         // Iterate over each entry
