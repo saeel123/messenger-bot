@@ -6,20 +6,24 @@ var mongoose = require("mongoose");
 
 
 const PORT = process.env.PORT || 5000;
-const db = mongoose.connect(process.env.MONGODB_URI);
+
+//const db = mongoose.connect(process.env.MONGODB_URI);
+const db = mongoose.connect("mongodb://localhost:27017/messenger-bot");
 const Question = require('./models/question');
 
-// Process application/x-www-form-urlencoded
+const users = require('./routes/users');
+const questions = require('./routes/questions');
+
 app.use(bodyParser.urlencoded({extended: false}))
-// Process application/json
 app.use(bodyParser.json());
 
+app.use('/users', users);
+app.use('/questions', questions);
 
 // Index route
 app.get('/', function (req, res) {
 	res.send('Hello world, I am a chat bot');
-})
-
+});
 
 // Facebook Webhook
 // Used for verification
