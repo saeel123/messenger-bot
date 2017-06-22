@@ -7,6 +7,8 @@ var Question = require("../models/question");
 // Facebook Webhook
 // Used for verification
 router.get("/", function (req, res) {
+    console.log(req.query["hub.verify_token"]);
+
     if (req.query["hub.verify_token"] === "my_voice_is_my_password_verify_me") {
         console.log("Verified webhook");
         res.status(200).send(req.query["hub.challenge"]);
