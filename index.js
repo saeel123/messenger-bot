@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 5000;
 var mongoose = require("mongoose");
 
 var db = mongoose.connect(process.env.MONGODB_URI);
-var Movie = require("./movie.js");
 
 var Question = require("./models/question")
 
