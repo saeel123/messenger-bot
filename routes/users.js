@@ -49,7 +49,6 @@ router.post('/authenticate', function (req, res, next) {
           token: 'JWT '+token,
           user: {
             id: user.id,
-            name: user.name,
             username: user.username,
             email: user.email
           }
@@ -62,7 +61,7 @@ router.post('/authenticate', function (req, res, next) {
   });
 });
 
-router.get('/profile', function (req, res, next) {
+router.get('/profile', passport.authenticate('jwt', {session: false}), function (req, res, next) {
   res.json({user: req.user});
 });
 

@@ -2,8 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-var mongoose = require("mongoose");
-
+const mongoose = require("mongoose");
+const cors = require('cors');
+const passport = require('passport');
 
 const PORT = process.env.PORT || 5000;
 
@@ -16,6 +17,10 @@ const questions = require('./routes/questions');
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./config/passport')(passport);
 
 app.use('/users', users);
 app.use('/questions', questions);
