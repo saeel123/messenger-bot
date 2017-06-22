@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 5000;
 var mongoose = require("mongoose");
 
 var db = mongoose.connect(process.env.MONGODB_URI);
-var Movie = require("./movie.js");
 
 var Question = require("./models/question")
 
@@ -22,7 +21,6 @@ app.use(bodyParser.json())
 app.get('/', function (req, res) {
 	res.send('Hello world, I am a chat bot');
 })
-
 
 // Facebook Webhook
 // Used for verification
@@ -55,14 +53,6 @@ app.post("/webhook", function (req, res) {
 
         res.sendStatus(200);
     }
-});
-
-
-app.get("/test", function (req, res) {
-
-	let test = "";
-
-	res.send(test);
 });
 
 function processPostback(event) {
@@ -200,9 +190,6 @@ function sendMessage(recipientId, message) {
         }
     });
 }
-
-
-//const token = process.env.FB_PAGE_ACCESS_TOKEN;
 
 // Spin up the server
 app.listen(PORT, function() {
